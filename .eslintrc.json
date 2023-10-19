@@ -1,6 +1,27 @@
 {
-  "extends": ["@rocketseat/eslint-config/node"],
+  "extends": ["@rocketseat/eslint-config/node", "eslint:recommended", "plugin:import/errors", "plugin:import/warnings", "plugin:vitest-globals/recommended"],
+  "plugins": ["import"],
+  "env": {
+    "vitest-globals/env": true
+  },
   "rules": {
-    "no-useless-constructor": "off"
+    "import/order": ["error", {"alphabetize": {"order": "asc"}}],
+    "camelcase": "off",
+    "no-useless-constructor": "off",
+    "no-undef": "off"
+  },
+  "settings": {
+    "import/parsers": {
+      "@typescript-eslint/parser": [".ts", ".tsx"]
+    },
+    "import/resolver": {
+      "node": {
+        "extensions": [".js", ".ts"]
+      },
+      "typescript": {
+        "alwaysTryTypes": true,
+        "project": "./tsconfig.json"
+      }
+    }
   }
 }
