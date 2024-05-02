@@ -23,7 +23,7 @@ describe('Create question use case', () => {
     expect(question.content).toBe('nova pergunta')
     expect(question.title).toBe('teste')
     expect(question.authorId).toEqual(new UniqueEntityID('author-id-teste'))
-    expect(question.slug).toEqual(new Slug('teste'))
+    expect(question.slug).toEqual(Slug.create('teste'))
     expect(inMemorySutRepository.items[0].id).toEqual(question.id)
   })
 })
