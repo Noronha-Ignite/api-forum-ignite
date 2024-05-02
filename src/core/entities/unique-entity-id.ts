@@ -11,6 +11,10 @@ export class UniqueEntityID {
     return this._value
   }
 
+  isEqualTo(id: UniqueEntityID): boolean {
+    return this._value === id.toString()
+  }
+
   toValue() {
     return this._value
   }
