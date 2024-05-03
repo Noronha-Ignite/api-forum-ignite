@@ -21,9 +21,9 @@ export class Question extends Entity<QuestionProps> {
   static create(props: CreateQuestionPayload, id?: UniqueEntityID) {
     const question = new Question(
       {
-        ...props,
-        slug: props.slug ?? Slug.createFromText(props.title),
+        slug: Slug.createFromText(props.title),
         createdAt: new Date(),
+        ...props,
       },
       id,
     )
