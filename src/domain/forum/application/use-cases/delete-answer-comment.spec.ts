@@ -1,4 +1,5 @@
 import { DeleteAnswerCommentUseCase } from './delete-answer-comment'
+import { NotAllowedError } from './errors/not-allowed-error'
 import { UniqueEntityID } from '@/core/entities/unique-entity-id'
 import { makeAnswerComment } from 'test/factories/make-answer-comment'
 import { InMemoryAnswerCommentsRepository } from 'test/repositories/in-memory-answer-comments-repository'
@@ -42,11 +43,12 @@ describe('Comment on answer use case', () => {
     inMemoryAnswerCommentsRepository.create(answerComment)
     expect(inMemoryAnswerCommentsRepository.items).toHaveLength(1)
 
-    expect(() =>
-      sut.execute({
-        authorId: 'author-2',
-        answerCommentId: 'answer-comment-1',
-      }),
-    ).rejects.toBeInstanceOf(Error)
+    const result = await sut.execute({
+      authorId: 'author-2',
+      answerCommentId: 'answer-comment-1',
+    })
+
+    expect(result.isLeft()).toBe(true)
+    expect(result.value).toBeInstanceOf(NotAllowedError)
   })
 })
