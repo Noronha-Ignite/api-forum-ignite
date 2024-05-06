@@ -11,13 +11,13 @@ describe('Answer question use case', () => {
   })
 
   it('should be able to create an answer', async () => {
-    const { answer } = await sut.execute({
+    const result = await sut.execute({
       content: 'nova resposta',
       instructorId: '1',
       questionId: '2',
     })
 
-    expect(answer.content).toBe('nova resposta')
-    expect(inMemorySutRepository.items[0].id).toEqual(answer.id)
+    expect(result.isRight()).toBe(true)
+    expect(inMemorySutRepository.items[0]).toEqual(result.value.answer)
   })
 })

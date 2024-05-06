@@ -1,4 +1,6 @@
+import { expect } from 'vitest'
 import { DeleteAnswerUseCase } from './delete-answer'
+import { NotAllowedError } from './errors/not-allowed-error'
 import { UniqueEntityID } from '@/core/entities/unique-entity-id'
 import { makeAnswer } from 'test/factories/make-answer'
 import { InMemoryAnswersRepository } from 'test/repositories/in-memory-answers-repository'
@@ -39,8 +41,12 @@ describe('Delete answer use case', () => {
     inMemorySutRepository.create(newAnswer)
     expect(inMemorySutRepository.items).toHaveLength(1)
 
-    expect(() =>
-      sut.execute({ answerId: 'id-test', authorId: 'author-2' }),
-    ).rejects.toBeInstanceOf(Error)
+    const result = await sut.execute({
+      answerId: 'id-test',
+      authorId: 'author-2',
+    })
+
+    expect(result.isLeft()).toBe(true)
+    expect(result.value).toBeInstanceOf(NotAllowedError)
   })
 })

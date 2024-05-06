@@ -13,17 +13,20 @@ describe('Create question use case', () => {
   })
 
   it('should be able to create a question', async () => {
-    const { question } = await sut.execute({
+    const result = await sut.execute({
       content: 'nova pergunta',
       authorId: 'author-id-teste',
       title: 'teste',
     })
 
-    expect(question.id).toBeTruthy()
-    expect(question.content).toBe('nova pergunta')
-    expect(question.title).toBe('teste')
-    expect(question.authorId).toEqual(new UniqueEntityID('author-id-teste'))
-    expect(question.slug).toEqual(Slug.create('teste'))
-    expect(inMemorySutRepository.items[0].id).toEqual(question.id)
+    expect(result.isRight()).toBe(true)
+    expect(result.value.question.id).toBeTruthy()
+    expect(result.value.question.content).toBe('nova pergunta')
+    expect(result.value.question.title).toBe('teste')
+    expect(result.value.question.authorId).toEqual(
+      new UniqueEntityID('author-id-teste'),
+    )
+    expect(result.value.question.slug).toEqual(Slug.create('teste'))
+    expect(inMemorySutRepository.items[0].id).toEqual(result.value.question.id)
   })
 })
