@@ -1,4 +1,3 @@
-import { Slug } from '../../enterprise/entities/value-objects/slug'
 import { CreateQuestionUseCase } from './create-question'
 import { UniqueEntityID } from '@/core/entities/unique-entity-id'
 import { InMemoryQuestionsRepository } from 'test/repositories/in-memory-questions-repository'
@@ -17,16 +16,19 @@ describe('Create question use case', () => {
       content: 'nova pergunta',
       authorId: 'author-id-teste',
       title: 'teste',
+      attachmentIds: ['attachment-1', 'attachment-2'],
     })
 
     expect(result.isRight()).toBe(true)
-    expect(result.value.question.id).toBeTruthy()
-    expect(result.value.question.content).toBe('nova pergunta')
-    expect(result.value.question.title).toBe('teste')
-    expect(result.value.question.authorId).toEqual(
-      new UniqueEntityID('author-id-teste'),
-    )
-    expect(result.value.question.slug).toEqual(Slug.create('teste'))
-    expect(inMemorySutRepository.items[0].id).toEqual(result.value.question.id)
+    expect(inMemorySutRepository.items[0]).toEqual(result.value.question)
+    expect(inMemorySutRepository.items[0].attachments).toHaveLength(2)
+    expect(inMemorySutRepository.items[0].attachments).toEqual([
+      expect.objectContaining({
+        attachmentId: new UniqueEntityID('attachment-1'),
+      }),
+      expect.objectContaining({
+        attachmentId: new UniqueEntityID('attachment-2'),
+      }),
+    ])
   })
 })
