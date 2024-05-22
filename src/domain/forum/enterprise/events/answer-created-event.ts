@@ -5,7 +5,7 @@ import { DomainEvent } from '@/core/events/domain-event'
 export class AnswerCreatedEvent implements DomainEvent {
   public ocurredAt: Date
 
-  constructor(private answer: Answer) {
+  constructor(public answer: Answer) {
     this.ocurredAt = new Date()
   }
 
