@@ -1,5 +1,5 @@
 import { AnswerAttachmentList } from './answer-attachment-list'
-import { Entity } from '@/core/entities/entity'
+import { AggregateRoot } from '@/core/entities/aggregate-root'
 import { UniqueEntityID } from '@/core/entities/unique-entity-id'
 import { Optional } from '@/core/types/optional'
 
@@ -14,7 +14,7 @@ export interface AnswerProps {
 
 type CreateAnswerPayload = Optional<AnswerProps, 'createdAt' | 'attachments'>
 
-export class Answer extends Entity<AnswerProps> {
+export class Answer extends AggregateRoot<AnswerProps> {
   static create(props: CreateAnswerPayload, id?: UniqueEntityID) {
     const answer = new Answer(
       {

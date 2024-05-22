@@ -12,4 +12,8 @@ export abstract class Entity<Props> {
   get id() {
     return this._id
   }
+
+  public isEqualTo(entity: Entity<Props>): boolean {
+    return entity === this || this.id.isEqualTo(entity.id)
+  }
 }
